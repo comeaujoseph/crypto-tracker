@@ -8,6 +8,7 @@ Crypto Tracker is a tracker for cryptocurrency prices.
 </div>
 
 <!-- TABLE OF CONTENTS -->
+<details>
 <summary>Table of Contents</summary>
 <ol>
   <li>
@@ -33,6 +34,7 @@ Crypto Tracker is a tracker for cryptocurrency prices.
   </li>
   <li><a href="#questions">Questions</a></li>
 </ol>
+</details>
 
 ## Getting Started
 
@@ -185,7 +187,7 @@ be done to ensure that resources are provision correctly.
 
 A Celery task will be triggered whenever the metric data has been updated. The task will first check to see 
 if when last the alert was sent. If no alert or alert expired, check to see if the metric has exceeded the 
-1-hour average by 3x. 
+1-hour average by 3x. If YES, send alert.
 
 ## Production
 
@@ -252,8 +254,8 @@ The dashboard will be written in React.js and hosted on a CDN.
 
 #### Prometheus & Grafana
 
-We will use Prometheus to manage our K8s resources and Grafana to visualize and alert on the metrics gathered. The alerts
-will be sent to Slack and PagerDuty depending on the severity.
+Prometheus to monitor our K8s resources. Grafana to visualize and alert on the metrics. Alerts are sent Slack and 
+PagerDuty depending on severity.
 
 #### Application logs
 
@@ -276,7 +278,13 @@ Flower is a web based tool for monitoring and administrating Celery clusters
 ## Questions
 
 1. What would you change if you needed to track many metrics? 
+    
+    Split of the periodic task into a task per metric or group of metrics. 
+    
 2. What if you needed to sample them more frequently? 
 3. What if you had many users accessing your dashboard to view metrics?
+
+    Caching [Redis](#redis) + Scalability [Production](#production)
+
 4. How would you extend testing for an application of this kind (beyond what you implemented)? [Answer](#testing)
 5. Feature request proposal [Answer](#metric-alerts)
