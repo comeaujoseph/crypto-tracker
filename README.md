@@ -14,7 +14,7 @@ Crypto Tracker is a tracker for cryptocurrency prices.
     <a href="#getting-started">Getting Started</a>
     <ul>
       <li><a href="#prerequisites">Prerequisites</a></li>
-      <li><a href="#installation">Install and Run</a></li>
+      <li><a href="#install-and-run">Install and Run</a></li>
       <li><a href="#usage">Usage</a></li>
     </ul>
   </li>
@@ -31,6 +31,7 @@ Crypto Tracker is a tracker for cryptocurrency prices.
       <li><a href="#monitoring">Monitoring / Alerting / Tracing</a></li>
     </ul>
   </li>
+  <li><a href="#questions">Questions</a></li>
 </ol>
 
 ## Getting Started
@@ -47,7 +48,7 @@ I started out using [Celery](https://docs.celeryproject.org/en/stable/), a Distr
 but after writing the application it felt a bit overkill for the purpose of the assignment. You would need to run multiple 
 processes (celery worker, celery scheduler, and redis) or install docker. I switched to using a [scheduler](https://apscheduler.readthedocs.io/en/3.x/). 
 
-### Install and Run
+### Run
 
 1. Create Python virtual environment
 
@@ -150,7 +151,7 @@ Additional Testing:
 Unit & Integration testing should be a part of the CI/CD. 
 
 Performance, load, and stress testing should be done ad hoc. Before going to production, these 3 types of testing should
-be done to ensure that resources are provision correctly (**capacity planning**).
+be done to ensure that resources are provision correctly.
 
 <!-- Features -->
 ## Features
@@ -176,6 +177,8 @@ be done to ensure that resources are provision correctly (**capacity planning**)
 
 **Request:** send an alert whenever a metric exceeds 3x the value of its average in the last 1 hour
 
+**Proposal:**
+
 * User selects a metric(s) to monitor (e.g. BTC/USD) 
 * User configures a channel(s) for the alert (e.g. Slack)
 * No noisy alerts! Alert will be sent once for a given time window
@@ -198,7 +201,7 @@ A high-level overview of the architectural design:
    2. Task creation
 3. Broker (Redis)
    1. Celery broker responsible to delivering tasks to workers
-4. Workers (Celery Worker)
+4. Workers (Celery)
    1. Worker "nodes" process tasks from the queue (fetching cryptocurrency prices) and store the results in the database
 5. Database (PostgreSQL)
    1. Tracked metrics
@@ -223,6 +226,8 @@ The application is separated into 2 component; API and worker, so that we can sc
 The API will use Gunicorn, which is a pure-Python WSGI server for UNIX. There an AWS classic load balancer sitting in
 front of the API to balance traffic.
 
+!! Note !!: CI/CD (Jenkins + BlueOcean) not documented. 
+
 ### PostgreSQL
 
 PostgreSQL (AWS RDS) to store tracked metrics and historical data. AWS RDS supports vertical and horizontal scaling:
@@ -230,19 +235,18 @@ increase instance size, replicas (multi-region support too). RDS provides backup
 
 ### Redis
 
-Redis will be used to distributing tasks the Celery worker nodes and as caching solution for the API. AWS ElasticCache 
-(managed redis solution) and support cluster mode, backups, and restores. Redis clustering will provide scalability via:
+Redis will be used for distributing tasks to the Celery workers and API caching. AWS ElasticCache 
+(managed redis solution) supports cluster mode, backups, and restores. Redis clustering will provide scalability via:
 auto-scaling, sharding, and replication.
 
 ### Celery
 
-Any scalable application must support non-blocking IO calls, so that long-running operations don't slow down our API. Celery
-will allow use to process task asynchronously and distributed. We can scale the number of celery works based on the number
-of tasks in the queue, which will all us to track more metrics 
+Celery will allow use to process task asynchronously and distributed. Celery workers can be scaled based on the number
+of tasks in the queue and independently of API.
 
 ### Dashboard
 
-The dashboard written in React.js and hosted on a CDN.
+The dashboard will be written in React.js and hosted on a CDN.
 
 ### Monitoring / Alerting / Tracing
 
@@ -254,7 +258,7 @@ will be sent to Slack and PagerDuty depending on the severity.
 #### Application logs
 
 An ELK stack (elasticsearch, kibana, filebeat, and logstash) will be used for application logs. We can then use Grafana 
-create alerts for application metrics.
+to create visualizations and alerts for application metrics.
 
 #### Alerting Platforms
 
@@ -268,3 +272,11 @@ End-to-end distributed tracing.
 #### Celery Flower
 
 Flower is a web based tool for monitoring and administrating Celery clusters
+
+## Questions
+
+1. What would you change if you needed to track many metrics? 
+2. What if you needed to sample them more frequently? 
+3. What if you had many users accessing your dashboard to view metrics?
+4. How would you extend testing for an application of this kind (beyond what you implemented)? [Answer](#testing)
+5. Feature request proposal [Answer](#metric-alerts)
