@@ -1,0 +1,7 @@
+celery==5.2.3
+cryptowatch-sdk==0.0.16
+Django==4.0.2
+django-apscheduler==0.6.0
+djangorestframework==3.13.1
+Markdown==3.3.6
+redis==4.1.3

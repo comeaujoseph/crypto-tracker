@@ -1,0 +1,56 @@
+[
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 1,
+            "key": "btcusd",
+            "pair": "BTC/USD",
+            "metric": "price"
+        }
+    },
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 2,
+            "key": "ltcusd",
+            "pair": "LTC/USD",
+            "metric": "price"
+        }
+    },
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 3,
+            "key": "etcusd",
+            "pair": "ETC/USD",
+            "metric": "price"
+        }
+    },
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 4,
+            "key": "ethbtc",
+            "pair": "ETH/BTC",
+            "metric": "price"
+        }
+    },
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 5,
+            "key": "btceur",
+            "pair": "BTC/EUR",
+            "metric": "price"
+        }
+    },
+    {
+        "model": "metrics.metric",
+        "fields": {
+            "id": 6,
+            "key": "etheur",
+            "pair": "ETH/EUR",
+            "metric": "price"
+        }
+    }
+]
