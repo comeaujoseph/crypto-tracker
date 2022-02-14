@@ -150,10 +150,10 @@ Additional Testing:
 - Load
 - Stress
 
-Unit & Integration testing should be a part of the CI/CD. 
+Unit & Integration testing should be a part of the CI/CD.
 
 Performance, load, and stress testing should be done ad hoc. Before going to production, these 3 types of testing should
-be done to ensure that resources are provision correctly.
+be done to ensure that resources are provisioned correctly.
 
 <!-- Features -->
 ## Features
@@ -183,7 +183,7 @@ be done to ensure that resources are provision correctly.
 
 * User selects a metric(s) to monitor (e.g. BTC/USD) 
 * User configures a channel(s) for the alert (e.g. Slack)
-* No noisy alerts! Alert will be sent once for a given time window
+* No noisy alerts! Alert will be sent only once for a given time window
 
 A Celery task will be triggered whenever the metric data has been updated. The task will first check to see 
 if when last the alert was sent. If no alert or alert expired, check to see if the metric has exceeded the 
@@ -225,10 +225,10 @@ k8s nodegroup with a higher EC2 instance type. For **horizontal scaling** we hav
 - Horizontal Pod Autoscaling: as load increases it will deploy more pods (application)
 
 The application is separated into 2 component; API and worker, so that we can scale and rollout releases independently.
-The API will use Gunicorn, which is a pure-Python WSGI server for UNIX. There an AWS classic load balancer sitting in
-front of the API to balance traffic.
+The API will use Gunicorn, which is a pure-Python WSGI server for UNIX, and a AWS classic load balancer 
+to distribute traffic.
 
-!! Note !!: CI/CD (Jenkins + BlueOcean) not documented. 
+**Note:** CI/CD (Jenkins + BlueOcean) not documented. 
 
 ### PostgreSQL
 
@@ -279,9 +279,12 @@ Flower is a web based tool for monitoring and administrating Celery clusters
 
 1. What would you change if you needed to track many metrics? 
     
-    Split of the periodic task into a task per metric or group of metrics. 
+    Split up the periodic task into a task per metric or group of metrics. 
     
 2. What if you needed to sample them more frequently? 
+
+    If you don't have to worry about rate-limiting, Python Celery would allow scheduling jobs with a shorter interval.
+
 3. What if you had many users accessing your dashboard to view metrics?
 
     Caching [Redis](#redis) + Scalability [Production](#production)
