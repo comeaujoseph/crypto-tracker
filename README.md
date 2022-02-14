@@ -29,7 +29,7 @@ Crypto Tracker is a tracker for cryptocurrency prices.
       <li><a href="#redis">Redis</a></li>
       <li><a href="#celery">Celery</a></li>
       <li><a href="#dashboard">Dashboard</a></li>
-      <li><a href="#monitoring">Monitoring / Alerting / Tracing</a></li>
+      <li><a href="#maintenance">Maintenance</a></li>
     </ul>
   </li>
   <li><a href="#questions">Questions</a></li>
@@ -50,7 +50,7 @@ I started out using [Celery](https://docs.celeryproject.org/en/stable/), a Distr
 but after writing the application it felt a bit overkill for the purpose of the assignment. You would need to run multiple 
 processes (celery worker, celery scheduler, and redis) or install docker. I switched to using a [scheduler](https://apscheduler.readthedocs.io/en/3.x/). 
 
-### Run
+### Install and Run
 
 1. Create Python virtual environment
 
@@ -233,7 +233,7 @@ to distribute traffic.
 ### PostgreSQL
 
 PostgreSQL (AWS RDS) to store tracked metrics and historical data. AWS RDS supports vertical and horizontal scaling:
-increase instance size, replicas (multi-region support too). RDS provides backup and restore functionality.
+increase instance size, replicas (multi-region support too), partitioning. RDS provides backup and restore functionality.
 
 ### Redis
 
@@ -250,17 +250,19 @@ of tasks in the queue and independently of API.
 
 The dashboard will be written in React.js and hosted on a CDN.
 
-### Monitoring / Alerting / Tracing
+### Maintenance
+
+Monitoring / Alerting / Tracing
 
 #### Prometheus & Grafana
 
-Prometheus to monitor our K8s resources. Grafana to visualize and alert on the metrics. Alerts are sent Slack and 
+Prometheus to monitor our K8s resources. Grafana to visualize and alert on the metrics. Alerts sent to Slack and/or 
 PagerDuty depending on severity.
 
 #### Application logs
 
-An ELK stack (elasticsearch, kibana, filebeat, and logstash) will be used for application logs. We can then use Grafana 
-to create visualizations and alerts for application metrics.
+An ELK stack (elasticsearch, kibana, filebeat, and logstash) used for application logs. Grafana 
+to visualize and alerts on application metrics.
 
 #### Alerting Platforms
 
@@ -276,6 +278,8 @@ End-to-end distributed tracing.
 Flower is a web based tool for monitoring and administrating Celery clusters
 
 ## Questions
+
+Questions are answered throughout the README, but I provided a brief summary below.
 
 1. What would you change if you needed to track many metrics? 
     
