@@ -46,9 +46,10 @@ An overview of the technology stack used for the take-home assignment:
 - [Django](https://www.djangoproject.com/): Python web framework
 - [SQLite](https://www.sqlite.org/index.html): SQL Database
 
-I started out using [Celery](https://docs.celeryproject.org/en/stable/), a Distributed Task Queue, to query the prices 
-but after writing the application it felt a bit overkill for the purpose of the assignment. You would need to run multiple 
-processes (celery worker, celery scheduler, and redis) or install docker. I switched to using a [scheduler](https://apscheduler.readthedocs.io/en/3.x/). 
+I started out using [Celery](https://docs.celeryproject.org/en/stable/); a Distributed Task Queue, to query the prices 
+but after writing the application it felt a bit overkill. It would require you to run multiple 
+processes (celery worker, celery scheduler, and redis) or install docker. I switched to using a [scheduler](https://apscheduler.readthedocs.io/en/3.x/),
+but I left the celery implementation, so you can see how I would scale the app. 
 
 ### Install and Run
 
